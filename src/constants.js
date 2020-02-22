@@ -1,7 +1,8 @@
 const MESSAGES = {
   ERRORS: {
       BAD_USER_ID: "Bad user id, failed to login",
-      FAILED_TO_GET_USERS: "Failed to get users"
+      FAILED_TO_GET_USERS: "Failed to get users",
+      NOT_AUTHORIZED: "User is not authorized"
   },
   INFO: {
       LOG_IN_SUCCESS: "Login success",

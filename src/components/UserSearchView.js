@@ -9,8 +9,11 @@ const UserSearchView = () => {
     let [searchValue, setSearch] = useState("");
     let userRole = useContext(UserRoleContext);
     let [sortingOrder, setSortingOrder] = useState();
-
+    debugger
     useEffect(() => {
+        if (!isAuthorized()) {
+            return;
+        }
         let order = getTableSortOrder() || 0;//1 asc, -1 - desc, 0 - not sorted
         setSortingOrder(order);
 
@@ -70,40 +73,46 @@ const UserSearchView = () => {
 
         setUsers(sortedUser);
     };
-
-    return (<div>
-        <input type="text" onChange={(e) => onChange(e.target.value)}/>
-        {users.length ?
-            <table>
-                <thead>
-                <tr>
-                    <td>
-                        <button onClick={() => sortUsers()}>Last name</button>
-                    </td>
-                    <td>Country</td>
-                </tr>
-                </thead>
-                <tbody>
-                {users.map((user, index) => {
-                    return <tr key={`${index}${user.lastname}`}>
-                        <td>{user.lastname}</td>
-                        {userRole === USER_ROLES.CRUD_ADMIN ?
-                            <td>
-                                <select value={user.country} onChange={() => {
-                                }}>
-                                    <option value='de'>de</option>
-                                    <option value='ru'>ru</option>
-                                </select>
-                            </td> :
-                            <td>{user.country}</td>
-                        }
-                    </tr>
-                })}
-                </tbody>
-            </table>
-            : <span>{MESSAGES.INFO.NO_USER_FIND}</span>
-        }
-    </div>)
+    const isAuthorized = () => {
+        return userRole === USER_ROLES.CRUD_ADMIN || userRole === USER_ROLES.READONLY_ADMIN;
+    };
+    return (
+        <React.Fragment>
+            {isAuthorized() ?
+                <div>
+                    <input type="text" onChange={(e) => onChange(e.target.value)}/>
+                    {users.length ?
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>
+                                    <button onClick={() => sortUsers()}>Last name</button>
+                                </td>
+                                <td>Country</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {users.map((user, index) => {
+                                return <tr key={`${index}${user.lastname}`}>
+                                    <td>{user.lastname}</td>
+                                    {userRole === USER_ROLES.CRUD_ADMIN ?
+                                        <td>
+                                            <select value={user.country} onChange={() => {
+                                            }}>
+                                                <option value='de'>de</option>
+                                                <option value='ru'>ru</option>
+                                            </select>
+                                        </td> :
+                                        <td>{user.country}</td>
+                                    }
+                                </tr>
+                            })}
+                            </tbody>
+                        </table>
+                        : <span>{MESSAGES.INFO.NO_USER_FIND}</span>
+                    }
+                </div> : <div>{MESSAGES.ERRORS.NOT_AUTHORIZED}</div>}
+        </React.Fragment>)
 };
 
 export default UserSearchView;
