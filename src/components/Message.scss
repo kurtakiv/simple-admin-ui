@@ -1,13 +1,12 @@
 .message {
-  border: 1px solid blue;
   height: 24px;
   font-size: 16px;
 
   .error {
-    border-color: red;
+    color: red;
   }
 
   .success {
-     border-color: green;
+    color: green;
   }
 }

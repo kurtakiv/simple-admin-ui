@@ -1,15 +1,16 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {API, MESSAGES, USER_ROLES} from '../constants';
+import {API, MESSAGES, USER_ROLES, LABLES} from '../constants';
 import {GET} from '../middleWare';
 import {UserRoleContext} from "../contexts/UserRoleContext";
 import {setTableSortOrder, getTableSortOrder} from '../helper'
+import './UserSearchView.scss'
 
 const UserSearchView = () => {
     let [users, setUsers] = useState([]);
     let [searchValue, setSearch] = useState("");
     let userRole = useContext(UserRoleContext);
     let [sortingOrder, setSortingOrder] = useState();
-    debugger
+
     useEffect(() => {
         if (!isAuthorized()) {
             return;
@@ -23,12 +24,12 @@ const UserSearchView = () => {
             if (response && response.data) {
                 let {users} = response.data;
                 users = users.filter(user => {
-                    return user.lastname.indexOf(searchValue) > -1;
+                    return user.lastname.toLowerCase().indexOf(searchValue.toLocaleLowerCase()) > -1;
                 });
                 setUsers(sort(users, sortingOrder || order));
             } else {
                 if (response && response.error) {
-                    //TODO HANDLE ERROR
+                    //TODO SHOW MESSAGE, ADD GLOBAL ERROR MESSAGE HANDLER
                     console.warn(response);
                     return;
                 }
@@ -73,20 +74,25 @@ const UserSearchView = () => {
 
         setUsers(sortedUser);
     };
+
     const isAuthorized = () => {
         return userRole === USER_ROLES.CRUD_ADMIN || userRole === USER_ROLES.READONLY_ADMIN;
     };
+
     return (
-        <React.Fragment>
+        <div className="user-search-view">
             {isAuthorized() ?
-                <div>
+                <React.Fragment>
+                    <div>
+                        <span>{LABLES.SEARCH}</span>
+                    </div>
                     <input type="text" onChange={(e) => onChange(e.target.value)}/>
                     {users.length ?
-                        <table>
+                        <table className="user-table">
                             <thead>
                             <tr>
                                 <td>
-                                    <button onClick={() => sortUsers()}>Last name</button>
+                                    <button onClick={() => sortUsers()}>{LABLES.SORT_BUTTON}</button>
                                 </td>
                                 <td>Country</td>
                             </tr>
@@ -109,10 +115,12 @@ const UserSearchView = () => {
                             })}
                             </tbody>
                         </table>
-                        : <span>{MESSAGES.INFO.NO_USER_FIND}</span>
+                        : <div>
+                            <span>{MESSAGES.INFO.NO_USER_FIND}</span>
+                        </div>
                     }
-                </div> : <div>{MESSAGES.ERRORS.NOT_AUTHORIZED}</div>}
-        </React.Fragment>)
+                </React.Fragment> : <div>{MESSAGES.ERRORS.NOT_AUTHORIZED}</div>}
+        </div>)
 };
 
 export default UserSearchView;

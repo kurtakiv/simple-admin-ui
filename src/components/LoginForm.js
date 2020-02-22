@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Login} from '../middleWare';
 import Message, {TYPES} from "./Message";
-import {MESSAGES} from "../constants";
+import {LABLES, MESSAGES} from "../constants";
 import PropTypes from 'prop-types';
 import './LoginForm.scss';
 
@@ -29,7 +29,7 @@ const LoginForm = (props) => {
             type="text"
             ref={userIdInput}
         />
-        <button onClick={() => sigIn(userIdInput.current.value)}>Log In</button>
+        <button className="login-button" onClick={() => sigIn(userIdInput.current.value)}>{LABLES.LOGIN_BUTTON}</button>
         {ShowMessage()}
     </div>);
 };

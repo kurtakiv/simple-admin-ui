@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
-import styles from "./Message.scss";
+import React from 'react';
+import "./Message.scss";
 import PropTypes from 'prop-types';
+
 const TYPES = {
     ERROR: 'error',
     SUCCESS: 'success'
 };
+
 function Message(props) {
     return (
         <React.Fragment>
-            <div style={styles[props.type]}>
-                <span>{props.text}</span>
+            <div className="message">
+                <div className={props.type}>
+                    <span>{props.text}</span>
+                </div>
             </div>
         </React.Fragment>
     )

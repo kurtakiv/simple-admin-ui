@@ -7,7 +7,6 @@ import {USER_ROLES} from "./constants";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
-
     let [userRole, setUserRole] = useState(USER_ROLES.GUEST);
     return (
         <UserRoleContext.Provider value={userRole}>

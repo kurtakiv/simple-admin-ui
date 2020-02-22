@@ -1,17 +1,24 @@
 const MESSAGES = {
-  ERRORS: {
-      BAD_USER_ID: "Bad user id, failed to login",
-      FAILED_TO_GET_USERS: "Failed to get users",
-      NOT_AUTHORIZED: "User is not authorized"
-  },
-  INFO: {
-      LOG_IN_SUCCESS: "Login success",
-      NO_USER_FIND: 'NO user find'
-  }
+    ERRORS: {
+        BAD_USER_ID: "Bad user id, failed to login",
+        FAILED_TO_GET_USERS: "Failed to get users",
+        NOT_AUTHORIZED: "User is not authorized"
+    },
+    INFO: {
+        LOG_IN_SUCCESS: "Login success",
+        NO_USER_FIND: 'No user found'
+    }
 };
+
+const LABLES = {
+    SEARCH: "Search user name",
+    SORT_BUTTON: "Last name",
+    LOGIN_BUTTON: "Log In"
+};
+
 const USER_ROLES = {
     CRUD_ADMIN: 'crudadmin',
-    READONLY_ADMIN: 'READONLY_ADMIN',
+    READONLY_ADMIN: 'readonlyadmin',
     GUEST: ""
 };
 
@@ -22,4 +29,4 @@ const API = {
 };
 
 
-export {USER_ROLES, MESSAGES, API};
+export {USER_ROLES, MESSAGES, API, LABLES};
